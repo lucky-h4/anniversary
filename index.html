@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ten Years</title>
+<meta name="description" content="Something booked. Not saying what.">
+<meta name="theme-color" content="#0B2A2E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:ital,wght@0,300;0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0B2A2E;
+    --panel:#0F383D;
+    --panel-dim:#0A2C31;
+    --lamp:#F0A94C;
+    --brass:#C98A3E;
+    --tile:#8FB6BC;
+    --paper:#F3EEE1;
+    --muted:#6F9096;
+    --display:'Marcellus',Georgia,serif;
+    --body:'Karla','Helvetica Neue',Arial,sans-serif;
+    --mono:'Space Mono','SF Mono',Menlo,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    background:var(--night);
+    color:var(--paper);
+    font-family:var(--body);
+    font-weight:300;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    min-height:100svh;
+  }
+
+  .glow{
+    position:fixed;
+    top:-34vh;left:50%;
+    width:130vw;height:78vh;
+    transform:translateX(-50%);
+    background:radial-gradient(ellipse at center,rgba(240,169,76,.15),rgba(240,169,76,0) 62%);
+    pointer-events:none;z-index:0;
+  }
+
+  .wrap{
+    position:relative;z-index:1;
+    max-width:430px;margin:0 auto;
+    padding:0 26px 80px;
+  }
+
+  /* ---- Masthead ---- */
+
+  .top{
+    padding:76px 0 46px;
+    text-align:center;
+  }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.62rem;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:18px;
+  }
+
+  .top h1{
+    font-family:var(--display);
+    font-weight:400;
+    font-size:clamp(2.9rem,17vw,3.9rem);
+    line-height:.94;
+  }
+
+  .top h1 em{display:block;font-style:normal;color:var(--lamp);}
+
+  .rule{
+    width:44px;height:1px;
+    background:var(--brass);opacity:.6;
+    margin:24px auto;
+  }
+
+  .standfirst{
+    font-size:.95rem;
+    color:var(--tile);
+    line-height:1.65;
+  }
+
+  .counter{
+    font-family:var(--mono);
+    font-size:.68rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-top:22px;
+  }
+
+  .counter strong{color:var(--lamp);font-weight:700;}
+
+  /* ---- Strand ---- */
+
+  .strand{list-style:none;position:relative;}
+
+  .strand::before{
+    content:"";
+    position:absolute;
+    left:6px;top:14px;bottom:14px;
+    width:1px;
+    background:linear-gradient(180deg,rgba(201,138,62,.5),rgba(201,138,62,.08));
+  }
+
+  .node{
+    position:relative;
+    padding-left:34px;
+    padding-bottom:26px;
+  }
+
+  .node:last-child{padding-bottom:0;}
+
+  .node::before{
+    content:"";
+    position:absolute;
+    left:0;top:22px;
+    width:13px;height:13px;
+    border-radius:50%;
+    border:1px solid rgba(201,138,62,.55);
+    background:var(--night);
+    transition:background .5s ease,box-shadow .5s ease;
+  }
+
+  .node.open::before{
+    background:var(--lamp);
+    border-color:var(--lamp);
+    box-shadow:0 0 14px rgba(240,169,76,.55);
+  }
+
+  .card{
+    border-radius:3px;
+    padding:22px 22px;
+    border:1px solid rgba(201,138,62,.2);
+    background:var(--panel-dim);
+  }
+
+  .node.open .card{
+    background:var(--panel);
+    border-color:rgba(201,138,62,.34);
+  }
+
+  .node.latest .card{
+    border-color:rgba(240,169,76,.62);
+  }
+
+  .stamp{
+    font-family:var(--mono);
+    font-size:.6rem;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+    color:var(--brass);
+    display:block;
+    margin-bottom:12px;
+  }
+
+  .node.latest .stamp{color:var(--lamp);}
+
+  .msg{
+    font-family:var(--display);
+    font-size:1.16rem;
+    line-height:1.55;
+    color:var(--paper);
+  }
+
+  .sealed{
+    font-size:.9rem;
+    color:var(--muted);
+    font-style:italic;
+  }
+
+  .node.shut .card{opacity:.62;}
+
+  /* ---- Foot ---- */
+
+  .foot{
+    margin-top:56px;
+    padding-top:40px;
+    border-top:1px solid rgba(143,182,188,.14);
+    text-align:center;
+  }
+
+  .foot p{
+    font-family:var(--display);
+    font-size:1.05rem;
+    color:var(--tile);
+    line-height:1.6;
+  }
+
+  .foot .sign{
+    font-family:var(--mono);
+    font-size:.62rem;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-top:18px;
+  }
+
+  .node.open .card{
+    animation:fade .8s ease both;
+  }
+
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  @media (prefers-reduced-motion:reduce){
+    .node.open .card{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="glow"></div>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">16 September</p>
+    <h1>Ten<em>Years</em></h1>
+    <div class="rule"></div>
+    <p class="standfirst">Something's booked. I'm not telling you what.<br>But I'll leave you a note every few days.</p>
+    <p class="counter" id="counter"></p>
+  </header>
+
+  <ul class="strand" id="strand"></ul>
+
+  <footer class="foot">
+    <p>Ten years, two children,<br>and three whole days<br>with nobody needing anything.</p>
+    <p class="sign">&mdash; Jon</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+
+  var NOTES = [
+    { d:'2026-08-24', label:'24 August',
+      t:"One night in Douglas doesn't count. This is the first time we've been off the island on our own since the kids arrived. I've booked something." },
+
+    { d:'2026-08-29', label:'29 August',
+      t:"I've put more thought into this than into anything at work this month. Please don't mention that at work." },
+
+    { d:'2026-09-03', label:'3 September',
+      t:"Ten years ago you married me in a city neither of us lived in. There's a bit of that in this one." },
+
+    { d:'2026-09-07', label:'7 September',
+      t:"You'll need your passport. Find it this week, not the night before." },
+
+    { d:'2026-09-10', label:'10 September',
+      t:"Shoes you can walk all day in. We'll be on our feet a lot more than we'll be sitting down." },
+
+    { d:'2026-09-12', label:'12 September',
+      t:"Bring something you feel good in. There's a table booked for the Wednesday." },
+
+    { d:'2026-09-13', label:'13 September',
+      t:"Not hot, not cold. Layers, and something for rain that probably won't come." },
+
+    { d:'2026-09-14', label:'14 September',
+      t:"Cabin bag only. I've done the maths on this more times than I'd like to admit." },
+
+    { d:'2026-09-15', label:'15 September',
+      t:"That's the last one from me. Ask me the rest when we get there." }
+  ];
+
+  function midnight(iso){
+    var p = iso.split('-');
+    return new Date(+p[0], +p[1]-1, +p[2], 0, 0, 0, 0);
+  }
+
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  // countdown to departure
+  var go = midnight('2026-09-15');
+  var days = Math.round((go - today) / 86400000);
+  var c = document.getElementById('counter');
+  if(days > 1){ c.innerHTML = '<strong>' + days + '</strong> days to go'; }
+  else if(days === 1){ c.innerHTML = '<strong>Tomorrow</strong>'; }
+  else { c.innerHTML = '<strong>Today</strong>'; }
+
+  // find the most recently unlocked
+  var latest = -1;
+  NOTES.forEach(function(n,i){ if(midnight(n.d) <= today) latest = i; });
+
+  var strand = document.getElementById('strand');
+
+  NOTES.forEach(function(n,i){
+    var open = midnight(n.d) <= today;
+    var li = document.createElement('li');
+    li.className = 'node ' + (open ? 'open' : 'shut') + (i === latest ? ' latest' : '');
+
+    var body = open
+      ? '<p class="msg">' + n.t + '</p>'
+      : '<p class="sealed">Not yet.</p>';
+
+    li.innerHTML =
+      '<div class="card">' +
+        '<span class="stamp">' + (open ? n.label : 'Opens ' + n.label) + '</span>' +
+        body +
+      '</div>';
+
+    strand.appendChild(li);
+  });
+
+})();
+</script>
+
+</body>
+</html>
